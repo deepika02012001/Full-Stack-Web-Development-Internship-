@@ -9,20 +9,6 @@
     background-color: #ebf2ff;
   }
   
-  .button__primary {
-    background-image: linear-gradient(
-      to right,
-      #ff512f 0%,
-      #dd2476 51%,
-      #ff512f 100%
-    );
-    color: #fff;
-    border: none;
-    padding: 12px;
-    border-radius: 6px;
-    cursor: pointer;
-  }
-  
   .container {
     max-width: 100%;
     padding: 0 20px;
@@ -43,20 +29,6 @@
   
   .navbar__logo {
     width: 100%;
-  }
-  
-  .nav__item {
-    background-image: linear-gradient(
-      to right,
-      #ff512f 0%,
-      #dd2476 51%,
-      #ff512f 100%
-    );
-    color: #fff;
-    border: none;
-    padding: 12px;
-    border-radius: 6px;
-    cursor: pointer;
   }
   
   .nav__item:hover {
@@ -87,6 +59,93 @@
     font-size: 30px;
     margin: 20px 0px;
     color: #1d3557;
+  }
+
+  .button__primary{
+    background-image: linear-gradient(
+      to right,
+      #ff512f 0%,
+      #dd2476 51%,
+      #ff512f 100%
+    );
+    color: #fff;
+    cursor: pointer;
+    border: none;
+    width: 200px;
+    height: 50px;
+    border-radius: 6px;
+    padding: 0px 10px;
+  }
+
+  .btn {
+    line-height: 30px;
+    height: 30px;
+    text-align: center;
+    width: 100%;
+    cursor: pointer;
+    font-size: 15px;
+    padding: 2px;
+    top:10px;
+  }
+
+  .btn2 {
+    line-height: 30px;
+    height: 30px;
+    text-align: center;
+    width: 100%;
+    cursor: pointer;
+    font-size: 15px;
+    padding: 2px;
+    top: 10px;
+  }
+
+  .btn3 {
+    line-height: 50px;
+    height: 50px;
+    text-align: center;
+    width: 150px;
+    cursor: pointer;
+    font-size: 20px;
+    padding: 2px;
+    top: -10px;
+  }
+
+  .trans__button {
+    color: #FFF;
+    transition: all 0.5s;
+    position: relative;
+  }
+  .trans__button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    background-color: rgba(255,255,255,0.1);
+    transition: all 0.3s;
+  }
+  .trans__button:hover::before {
+    opacity: 0 ;
+    transform: scale(0.5,0.5);
+  }
+  .trans__button::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    opacity: 0;
+    transition: all 0.3s;
+    border: 1px solid rgba(255,255,255,0.5);
+    transform: scale(1.2,1.2);
+  }
+  .trans__button:hover::after {
+    opacity: 1;
+    transform: scale(1,1);
   }
   
   .explore__menu__text {
@@ -241,7 +300,31 @@
     .restaurant__text{
       width: 100%;
       font-size: 40px;
+    }
+
+    .btn {
+      line-height: 40px;
+      height: 40px;
       text-align: center;
+      width: 100%;
+      cursor: pointer;
+      font-size: 20px;
+      padding: 2px;
+      top:8px;
+    }
+  
+    .btn2 {
+      line-height: 40px;
+      height: 40px;
+      text-align: center;
+      width: 100%;
+      cursor: pointer;
+      font-size: 20px;
+      padding: 2px;
+      top: 8px;
+    }
+    .button__primary {
+      height: 60px;
     }
 
   }
@@ -253,12 +336,32 @@
     .navbar__brand {
       width: 150px;
     }
-    .button__primary {
-      padding: 20px;
+    .btn {
+      line-height: 45px;
+      height: 45px;
+      text-align: center;
+      width: 100%;
+      cursor: pointer;
       font-size: 20px;
+      padding: 2px;
+      top:5px;
     }
+    .btn2 {
+      line-height: 50px;
+      height: 50px;
+      text-align: center;
+      width: 100%;
+      cursor: pointer;
+      font-size: 20px;
+      padding: 2px;
+      top:5px;
+    }
+    .button__primary {
+      height: 60px;
+    }
+    
     .hero__text {
-      font-size: 40px;
+      font-size: 50px;
       margin: 100px 0px;
     }
     .explore__menu__lists {
@@ -266,6 +369,9 @@
     }
     .explore__menu__text {
       font-size: 50px;
+    }
+    .explore__menu__container{
+      height: 550px;
     }
     .restaurant__container{
       display: flex;
@@ -322,4 +428,33 @@
       font: bold;
       font-size: 18px;
     }
+    .explore__menu__container{
+      height: 100%;
+    }
+    .button__primary{
+      padding: 5px;
+    }
+
+    .btn {
+      line-height: 40px;
+      height: 40px;
+      text-align: center;
+      width: 100%;
+      cursor: pointer;
+      font-size: 20px;
+      padding: 2px;
+      top:2px;
+    }
+  
+    .btn2 {
+      line-height: 40px;
+      height: 40px;
+      text-align: center;
+      width: 100%;
+      cursor: pointer;
+      font-size: 20px;
+      padding: 2px;
+      top: 4px;
+    }
+
   }
