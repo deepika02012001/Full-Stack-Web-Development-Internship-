@@ -71,13 +71,13 @@
     color: #fff;
     cursor: pointer;
     border: none;
-    width: 200px;
-    height: 50px;
+    width: 160px;
+    height: 40px;
     border-radius: 6px;
     padding: 0px 10px;
   }
 
-  .btn {
+  .btn , .btn2{
     line-height: 30px;
     height: 30px;
     text-align: center;
@@ -85,18 +85,7 @@
     cursor: pointer;
     font-size: 15px;
     padding: 2px;
-    top:10px;
-  }
-
-  .btn2 {
-    line-height: 30px;
-    height: 30px;
-    text-align: center;
-    width: 100%;
-    cursor: pointer;
-    font-size: 15px;
-    padding: 2px;
-    top: 10px;
+    top:5px;
   }
 
   .btn3 {
@@ -174,6 +163,10 @@
   .food__card__description {
     padding: 15px;
   }
+
+  #view__more{
+    color: #1d3557;
+  }
   
   /* Flexxxxxx */
   .restaurant__text {
@@ -208,14 +201,14 @@
   
   .restaurant__image__1,
   .restaurant__image__4 {
-    width: 250px;
-    height: 180px;
+    width: 200px;
+    height: 120px;
   }
   
   .restaurant__image__2,
   .restaurant__image__3 {
-    width: 300px;
-    height: 260px;
+    width: 260px;
+    height: 160px;
   }
   
   .restaurant__1,
@@ -227,9 +220,90 @@
     border-radius: 8px;
   }
 
-  .explore__menu__container, .restaurant__container{
-    margin-bottom: 400px;
+
+  .update__container{
+    margin-top: 100px;
+    text-align: center;
+    margin-bottom: 100px;
   }
+
+  .update__inputbox{
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+  }
+
+  .update__text{
+    font-size: 30px;
+    color: #1d3557;
+    margin-bottom: 25px;
+  }
+
+  .update__inputbox__email{
+    font:bold;
+    font-size: 15px;
+    padding: 1px 10px;
+    text-align: left;
+    color: #1d3557;
+    width: 70%;
+    height: 40px;
+    background-color: rgb(250, 232, 234);
+  }
+
+  .quote__image{
+    width: 100%;
+  }
+
+  .quote__container{
+    margin-top: 100px;
+    position: relative;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 200px;
+    width: 100%;
+    border-radius: 13px;
+    opacity: 60%;
+    margin-bottom: 100px;
+    background: url(./assets/restaurant4.jpg) center center / cover no-repeat;
+  }
+
+  .quote__text{
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    display: block;
+    color: white;
+    font-size: 20px;
+    text-align: center;
+  }
+
+  .footer__container{
+    background-image: linear-gradient(
+      to right,
+      #ff512f 0%,
+      #dd2476 51%,
+      #ff512f 100%
+    );
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content:space-around;
+    background-color: #fff;
+    border-radius: 8px 8px 0 0;
+  }
+  
+  .footer__logo{
+    -webkit-filter: brightness(0) invert(1);
+    filter: brightness(0) invert(1);
+    width: 100px;
+  }
+
+  .footer__item__list{
+    line-height: 1.5;
+    list-style-type: none;
+    font-size: large;
+  }
+
   
   @media (min-width: 768px) {
     .container{
@@ -260,7 +334,8 @@
       margin-bottom: 30px;
     }
     .explore__menu__container {
-      margin-top: 300px;
+      margin-top: 150px;
+      margin-bottom: 200px;
     }
     .explore__menu__view__more {
       display: flex;
@@ -287,19 +362,30 @@
       z-index: -3;
     }
 
+    #view__more{
+      color: #fff;
+    }
+
     .restaurant__container{
-      max-width: 100%;
-      padding: 0 20px;
-      margin: 0 auto;
+      display: flex;
+      justify-content: center;
+      gap:5px;
     }
 
     .restaurant__images__container{
-      padding: 0 10px;
+      margin-top: -100px;
+    }
+
+    .restaurant__image__1,
+    .restaurant__image__4 {
+      width: 180px;
+      height: 120px;
     }
   
-    .restaurant__text{
-      width: 100%;
-      font-size: 40px;
+    .restaurant__image__2,
+    .restaurant__image__3 {
+      width: 220px;
+      height: 180px;
     }
 
     .btn {
@@ -325,6 +411,32 @@
     }
     .button__primary {
       height: 60px;
+    }
+
+    .update__inputbox__email{
+      font:bold;
+      font-size: 15px;
+      padding: 1px 10px;
+      text-align: left;
+      color: #1d3557;
+      width: 25%;
+      height: 40px;
+      margin-top: 10px;
+      margin-bottom: 25px;
+      background-color: rgb(250, 232, 234);
+    }
+
+    .quote__container {
+      height: 300px;
+      width: 100%;
+    }
+
+    .quote__text{
+      font-size: 30px;
+    }
+
+    .footer__logo{
+      width: 300px;
     }
 
   }
@@ -361,18 +473,26 @@
     }
     
     .hero__text {
-      font-size: 50px;
+      font-size: 40px;
       margin: 100px 0px;
     }
     .explore__menu__lists {
       gap: 40px;
     }
     .explore__menu__text {
-      font-size: 50px;
+      font-size: 40px;
+    }
+    .restaurant__text {
+      font-size: 40px;
     }
     .explore__menu__container{
       height: 550px;
+      margin-bottom: 200px;
     }
+    #view__more{
+      color: #fff;
+    }
+
     .restaurant__container{
       display: flex;
       justify-content: center;
@@ -381,6 +501,31 @@
 
     .restaurant__images__container{
       margin-top: -100px;
+    }
+
+    .update__text{
+      font-size: 40px;
+    }
+
+    .update__inputbox__email{
+      font:bold;
+      font-size: 15px;
+      padding: 1px 10px;
+      text-align: left;
+      color: #1d3557;
+      width: 25%;
+      height: 40px;
+      margin-top: 10px;
+      margin-bottom: 25px;
+      background-color: rgb(250, 232, 234);
+    }
+
+    .quote__text{
+      font-size: 30px;
+    }
+
+    .footer__logo{
+      width: 300px;
     }
 
   }
@@ -397,6 +542,22 @@
       align-items: center;
       margin-bottom: 40px;
       gap: 30px;
+    }
+
+    .hero__text {
+      font-size: 50px;
+    }
+
+    .explore__menu__text {
+      font-size: 50px;
+    }
+
+    .explore__menu__container{
+      margin-bottom: 200px;
+    }
+
+    .restaurant__text {
+      font-size: 50px;
     }
 
     .navbar {
@@ -431,6 +592,33 @@
     .explore__menu__container{
       height: 100%;
     }
+
+    #view__more{
+      color: #fff;
+    }
+
+    .restaurant__container{
+      display: flex;
+      justify-content: center;
+      gap: 60px;
+    }
+
+    .restaurant__images__container{
+      margin-top: -100px;
+    }
+    
+    .restaurant__image__1,
+    .restaurant__image__4 {
+      width: 240px;
+      height: 180px;
+    }
+  
+    .restaurant__image__2,
+    .restaurant__image__3 {
+      width: 300px;
+      height: 280px;
+    }
+
     .button__primary{
       padding: 5px;
     }
@@ -455,6 +643,31 @@
       font-size: 20px;
       padding: 2px;
       top: 4px;
+    }
+
+    .update__text{
+      font-size: 40px;
+    }
+
+    .update__inputbox__email{
+      font:bold;
+      font-size: 15px;
+      padding: 1px 10px;
+      text-align: left;
+      color: #1d3557;
+      width: 25%;
+      height: 40px;
+      margin-top: 10px;
+      margin-bottom: 25px;
+      background-color: rgb(250, 232, 234);
+    }
+
+    .quote__text{
+      font-size: 30px;
+    }
+
+    .footer__logo{
+      width: 300px;
     }
 
   }
