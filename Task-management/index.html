@@ -18,7 +18,7 @@
     <link rel="stylesheet" href="style.css"/>
     <title>TaskY</title>
 </head>
-<body>
+<body onload="loadInitialCardData()">
   <!-- Modal -->
 <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
   <div class="modal-dialog">
@@ -82,9 +82,10 @@
               </div>
             </div>
             <!--cards-->
+            <!--
             <section class="taskcard">
                 <div class="row mt-3 task__container">
-                    <div class="col-md-6 col-lg-4"><!--medium screen need cards of width 6 and large one is width 4-->
+                    <div class="col-md-6 col-lg-4">
                         <div class="card">
                             <div class="card-header d-flex justify-content-end gap-2">
                                 <button type="button" class="btn btn-outline-danger"><i class="fas fa-pencil-alt"></i></button>
@@ -104,8 +105,13 @@
                           
                     </div>
                 </div>
+            </section>-->
+            <!--medium screen need cards of width 6 and large one is width 4-->
+            <section>
+              <div class="row mt-3 task__container">
+
+              </div>
             </section>
-            
 
 
         </div>
