@@ -6,15 +6,14 @@ const generateNewCard=(taskData)=>`
 <div class="col-md-6 col-lg-4"><!--medium screen need cards of width 6 and large one is width 4-->
 <div class="card">
     <div class="card-header d-flex justify-content-end gap-2">
-        <button type="button" class="btn btn-outline-danger"><i class="fas fa-pencil-alt"></i></button>
+        <button type="button" class="btn btn-outline-danger" onclick="editCard.apply(this,arguments)" id=${taskData.id}><i class="fas fa-pencil-alt" id=${taskData.id} onclick="editCard.apply(this,arguments)"></i></button>
         <button type="button" class="btn btn-outline-warning" onclick="deleteCard.apply(this,arguments)" id=${taskData.id}><i class="fas fa-trash-alt" id=${taskData.id} onclick="deleteCard.apply(this,arguments)"></i></button>
     </div>
     <img src=${taskData.imageUrl} class="card-img-top" alt="books">
     <div class="card-body">
       <h5 class="card-title">${taskData.taskTitle}</h5>
-      <p class="card-text">${taskData.taskType}</p>
       <p class="card-description">${taskData.taskDescription}</p>
-      <!--<a href="#" class="btn btn-primary">Go somewhere</a>-->
+      <a href="#" class="btn btn-primary">${taskData.taskType}</a>
     </div>
     <div class="card-footer d-flex justify-content-end">
         <button type="button" class="btn btn-primary">Open Task</button>
@@ -61,7 +60,7 @@ const deleteCard=(event)=>{
     //match id with id inside global store
     globalStore=globalStore.filter((cardObject)=>cardObject.id!=targetID);
     //if match found remove it
-    localStorage.setItem("tasky", JSON.stringify({cards:globalStore}))
+    localStorage.setItem("tasky", JSON.stringify({cards:globalStore}));
     //contact parent
     //taskContainer.removeChild()
     if(tagname==="BUTTON"){
@@ -72,9 +71,35 @@ const deleteCard=(event)=>{
     }
 };
 
+const editCard=(event)=>{
+    const edition=(children)=>{
+        console.log(children[5].nodeName);
+        const siblings=children[5].childNodes;
+        //console.log(siblings[1].nodeName);
+        for(var i=0;i<siblings.length;i++){
+            siblings[i].contentEditable=true;
+        }
+    }
+    event=window.event;
+    const targetID=event.target.id;
+    const tagname=event.target.tagName;
+    editStore=globalStore.filter((cardObject)=>cardObject.id==targetID);
+    if(tagname=="BUTTON"){
+        const children=event.target.parentNode.parentNode.childNodes;
+        edition(children);
+    }
+    else{
+        const children=event.target.parentNode.parentNode.parentNode.childNodes;
+        edition(children);
+    }
+    console.log(editStore);
+}
+
 
 
 
 //https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRo6iP4R4I11hL56uufDjoNESU5tHxvDsAJuQ&usqp=CAU
 
 //https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTynHfBuLHkLUNPZFkIHShI0Z4NL2-h-wC76Q&usqp=CAU
+
+//open the card as optional
