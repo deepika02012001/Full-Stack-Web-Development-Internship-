@@ -13,7 +13,7 @@ const generateNewCard=(taskData)=>`
     <div class="card-body">
       <h5 class="card-title">${taskData.taskTitle}</h5>
       <p class="card-description">${taskData.taskDescription}</p>
-      <a href="#" class="btn btn-primary">${taskData.taskType}</a>
+      <a href="#" class="btn btn-primary" id="card-type">${taskData.taskType}</a>
     </div>
     <div class="card-footer d-flex justify-content-end">
         <button type="button" class="btn btn-primary">Open Task</button>
@@ -31,8 +31,7 @@ const loadInitialCardData=()=>{
     cards.map((cardObject)=>{
     taskContainer.insertAdjacentHTML("beforeend", generateNewCard(cardObject));
     globalStore.push(cardObject);
-});
-
+    });
 }
 
 const saveChanges=()=>{
@@ -71,15 +70,44 @@ const deleteCard=(event)=>{
     }
 };
 
+/*
+const saveEdits=(event)=>{
+    const targetID=event.target.id;
+    const tagname=event.target.tagName;
+    editStore=globalStore.filter((cardObject)=>cardObject.id==targetID);
+    var op1=document.getElementsByTagName("H5")[1].getAttribute("class");
+    var op2=document.getElementsByTagName("P")[0].getAttribute("class");
+    var op3=document.getElementById("card-type");
+    editStore[0].taskTitle=document.getElementsByClassName(op1).value;
+    editStore[0].taskType=document.getElementsByClassName(op3).value;
+    editStore[0].taskDescription=odocument.getElementsByClassName(op2).value;
+    globalStore.push(editStore);
+}
+*/
+
 const editCard=(event)=>{
+
     const edition=(children)=>{
         console.log(children[5].nodeName);
         const siblings=children[5].childNodes;
         //console.log(siblings[1].nodeName);
         for(var i=0;i<siblings.length;i++){
             siblings[i].contentEditable=true;
+            console.log(siblings[i].nodeName);
+        }
+        var bodyunload=document.getElementsByTagName("body");
+        bodyunload.addEventListener("onunload",setTimeout(saveEdits,5000));
+        function saveEdits(){
+            var op1=document.getElementsByTagName("H5")[1].getAttribute("class");
+            var op2=document.getElementsByTagName("P")[0].getAttribute("class");
+            var op3=document.getElementById("card-type");
+            editStore[0].taskTitle=document.getElementsByClassName(op1).value;
+            editStore[0].taskType=document.getElementsByClassName(op3).value;
+            editStore[0].taskDescription=odocument.getElementsByClassName(op2).value;
+            globalStore.push(editStore);
         }
     }
+
     event=window.event;
     const targetID=event.target.id;
     const tagname=event.target.tagName;
