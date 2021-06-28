@@ -6,6 +6,9 @@ const database=require("./database");
 //initialisation
 const bookilicious=express();
 
+//configuaration
+bookilicious.use(express.json());
+
 /*
 Route         :/
 Description   :Get all books
@@ -149,6 +152,97 @@ bookilicious.get("/pubbooks/:isbn",(req,res)=>{
     return res.json({pub: getSpecificPub});
 });
 
+
+/*
+Route         :/books/add
+Description   :add new book
+Access        :PUBLIC
+Parameter     :NONE
+Methods       :POST
+*/
+bookilicious.post("/book/add",(req,res)=>{
+    const {newBook}=req.body; //destructuring
+    database.books.push(newBook);
+    return res.json({books:database.books});
+
+});
+
+/*
+Route         :/book/update/title
+Description   :update book title
+Access        :PUBLIC
+Parameter     :isbn
+Methods       :PUT
+*/
+// "/book/update/:isbn/title" or "/book/update/:isbn/:title"
+bookilicious.put("/book/update/title/:isbn",(req,res)=>{
+    //we can use foreach or map
+    //foreach updates in database directly
+    //map returns new updated array-its expensive since it creates many new array everytime replacing
+    /*
+    give in postman "put":
+    {
+    "newBookTitle": "Hello MERN 2nd Edition"
+    }
+    */
+    database.books.forEach((book)=>{
+        if(book.ISBN===req.params.isbn){
+            book.title=req.body.newBookTitle;
+            return;
+        }
+    });
+    return res.json({books: database.books});
+});
+
+/*
+Route         :/book/update/author
+Description   :update/add new author for a book
+Access        :PUBLIC
+Parameter     :isbn
+Methods       :PUT
+*/
+bookilicious.put("/book/update/author/:isbn/:authorID",(req,res)=>{
+    //update book database:
+    database.books.forEach((book)=>{
+        if(book.ISBN===req.params.isbn){
+            return book.author.push(parseInt(req.params.authorID));//its integer but default string format
+        }
+    });
+
+    //update author database
+    database.author.forEach((author)=>{
+        if(author.id===parseInt(req.params.authorID)){
+            return author.books.push(req.params.isbn);
+        }
+    });
+    return res.json({books:database.books,author:database.author});
+});
+
+/*
+Route         :/author/add
+Description   :add new author
+Access        :PUBLIC
+Parameter     :NONE
+Methods       :POST
+*/
+bookilicious.post("/author/add",(req,res)=>{
+    const {newAuthor}=req.body; //destructuring
+    database.author.push(newAuthor);
+    return res.json({author:database.author});
+});
+
+/*
+Route         :/publication/add
+Description   :add new publication
+Access        :PUBLIC
+Parameter     :NONE
+Methods       :POST
+*/
+bookilicious.post("/publication/add",(req,res)=>{
+    const newPub=req.body;
+    database.publication.push(newPub);
+    res.json({publication:database.publication});
+});
 
 bookilicious.listen(3000,()=>console.log("hey, server is running"));
 
