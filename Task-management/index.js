@@ -70,43 +70,31 @@ const deleteCard=(event)=>{
     }
 };
 
-/*
-const saveEdits=(event)=>{
-    const targetID=event.target.id;
-    const tagname=event.target.tagName;
-    editStore=globalStore.filter((cardObject)=>cardObject.id==targetID);
-    var op1=document.getElementsByTagName("H5")[1].getAttribute("class");
-    var op2=document.getElementsByTagName("P")[0].getAttribute("class");
-    var op3=document.getElementById("card-type");
-    editStore[0].taskTitle=document.getElementsByClassName(op1).value;
-    editStore[0].taskType=document.getElementsByClassName(op3).value;
-    editStore[0].taskDescription=odocument.getElementsByClassName(op2).value;
-    globalStore.push(editStore);
-}
-*/
 
 const editCard=(event)=>{
 
     const edition=(children)=>{
         console.log(children[5].nodeName);
-        const siblings=children[5].childNodes;
-        //console.log(siblings[1].nodeName);
-        for(var i=0;i<siblings.length;i++){
-            siblings[i].contentEditable=true;
-            console.log(siblings[i].nodeName);
+        for(var i=0;i<children.length;i++){
+            if(children[i].nodeName=="DIV" && children[i].getAttribute("class")=="card-body"){
+                const siblings=children[i].childNodes;
+                for(var j=0;j<siblings.length;j++){
+                    if(siblings[j].nodeName=="H5" || siblings[j].nodeName=="P" || siblings[j].nodeName=="A"){
+                        siblings[j].contentEditable=true;
+                    }
+                }
+            }
         }
-        var bodyunload=document.getElementsByTagName("body");
-        bodyunload.addEventListener("onunload",setTimeout(saveEdits,5000));
-        function saveEdits(){
-            var op1=document.getElementsByTagName("H5")[1].getAttribute("class");
-            var op2=document.getElementsByTagName("P")[0].getAttribute("class");
-            var op3=document.getElementById("card-type");
-            editStore[0].taskTitle=document.getElementsByClassName(op1).value;
-            editStore[0].taskType=document.getElementsByClassName(op3).value;
-            editStore[0].taskDescription=odocument.getElementsByClassName(op2).value;
-            globalStore.push(editStore);
-        }
+        let submitButton=children[7].childNodes[1];
+        submitButton.innerHTML="Save Changes";
     }
+
+    /*
+    let taskTitle=parentElement.childNodes[5].childNodes[1];
+    let taskDescription=parentElement.childNodes[5].childNodes[3];
+    let taskType=parentElement.childNodes[5].childNodes[5];
+    taskTitle.setAttribute("content-editable",true);....
+    */
 
     event=window.event;
     const targetID=event.target.id;
