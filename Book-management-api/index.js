@@ -198,7 +198,7 @@ bookilicious.put("/book/update/title/:isbn",(req,res)=>{
 Route         :/book/update/author
 Description   :update/add new author for a book
 Access        :PUBLIC
-Parameter     :isbn
+Parameter     :isbn,authorID
 Methods       :PUT
 */
 bookilicious.put("/book/update/author/:isbn/:authorID",(req,res)=>{
@@ -232,6 +232,25 @@ bookilicious.post("/author/add",(req,res)=>{
 });
 
 /*
+Route         :/author/update/name
+Description   :update author name
+Access        :PUBLIC
+Parameter     :id
+Methods       :PUT
+*/
+bookilicious.put("/author/update/name/:id",(req,res)=>{
+    database.author.forEach((auth)=>{
+        if(auth.id===parseInt(req.params.id)){
+            auth.name=req.body.newAuthorName;
+        }
+        return;
+    });
+    res.json({author:database.author});
+});
+
+
+
+/*
 Route         :/publication/add
 Description   :add new publication
 Access        :PUBLIC
@@ -242,6 +261,48 @@ bookilicious.post("/publication/add",(req,res)=>{
     const newPub=req.body;
     database.publication.push(newPub);
     res.json({publication:database.publication});
+});
+
+/*
+Route         :/publication/update/name
+Description   :update publication name
+Access        :PUBLIC
+Parameter     :id
+Methods       :PUT
+*/
+bookilicious.put("/publication/update/name/:id",(req,res)=>{
+    database.publication.forEach((pub)=>{
+        if(pub.id===parseInt(req.params.id)){
+            pub.name=req.body.newPubName;
+        }
+        return;
+    });
+    return res.json({publication:database.publication});
+});
+
+/*
+Route         :/publication/update/book
+Description   :update/add new book to a publication
+Access        :PUBLIC
+Parameter     :isbn
+Methods       :PUT
+removing old publication from books and adding new publication.
+*/
+bookilicious.put("/publication/update/book/:isbn",(req,res)=>{
+    //update the publication database
+    database.publication.forEach((publication)=>{
+        if(publication.id===req.body.pubId){
+            publication.books.push(req.params.isbn);
+        }
+    });
+    //update the books database- publication attribute
+    database.books.forEach((book)=>{
+        if(book.ISBN===req.params.isbn){
+            book.publication=req.body.pubId;
+            return;
+        }
+    });
+    return res.json({books:database.books,publication:database.publication});
 });
 
 bookilicious.listen(3000,()=>console.log("hey, server is running"));

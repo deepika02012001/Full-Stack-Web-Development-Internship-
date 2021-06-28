@@ -42,7 +42,7 @@ to get list of books based on languages
 add new book
 
 //PUT
-update book tutle
+update book title
 update/add new author (array in book)
 
 //DELETE
@@ -74,7 +74,7 @@ to get list of publications based on books
 add new publication
 
 //PUT
-update publication namme
+update publication name
 updating or adding new books in publication
 
 //DELETE
@@ -85,4 +85,6 @@ delete a book from publication
 
 /*
 create data in another js file
+
+how the server serves the requests
 */
