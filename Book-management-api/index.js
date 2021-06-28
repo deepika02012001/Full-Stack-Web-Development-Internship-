@@ -378,9 +378,30 @@ bookilicious.delete("/book/delete/publication/:isbn/:pubId",(req,res)=>{
 Route         :/publication/delete
 Description   :delete a publication
 Access        :PUBLIC
-Parameter     :isbn,id
+Parameter     :isbn,pubId
 Methods       :DELETE
 */
+bookilicious.delete("/publication/delete/:isbn/:pubId",(req,res)=>{
+    //update book database
+    database.books.forEach((book)=>{
+        if(book.ISBN===req.params.isbn){
+            const newPubList=book.publications.filter((pub)=>pub.id!==parseInt(req.params.pubId));
+            book.publications=newPubList;
+            return;
+        }
+    });
+
+    //update publication database
+    database.publication.forEach((pub)=>{
+        if(pub.id===parseInt(req.params.pubId)){
+            const newBooksList=publication.books.filter((book)=>book!=req.params.isbn);
+            database.publication.books=newBooksList;
+            return;
+        };
+    });
+    return res.json({book:database.books,publication:database.publication,message:"publication was deleted"});
+
+});
 
 bookilicious.listen(3000,()=>console.log("hey, server is running"));
 
