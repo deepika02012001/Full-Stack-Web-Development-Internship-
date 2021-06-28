@@ -13,10 +13,10 @@ const generateNewCard=(taskData)=>`
     <div class="card-body">
       <h5 class="card-title">${taskData.taskTitle}</h5>
       <p class="card-description">${taskData.taskDescription}</p>
-      <a href="#" class="btn btn-primary" id="card-type">${taskData.taskType}</a>
+      <a href="#" class="btn btn-primary card-type">${taskData.taskType}</a>
     </div>
     <div class="card-footer d-flex justify-content-end">
-        <button type="button" class="btn btn-primary">Open Task</button>
+        <button type="button" class="btn btn-primary" id=${taskData.id}>Open Task</button>
     </div>
   </div> 
 </div>`;
@@ -70,6 +70,42 @@ const deleteCard=(event)=>{
     }
 };
 
+const saveEditChanges=(event)=>{
+    event=window.event;
+    const targetID=event.target.id;
+    const tagname=event.target.tagName;
+    var parentElem=event.target;
+    if(tagname=="BUTTON"){
+        parentElem=event.target.parentNode.parentNode;
+    }
+    else{
+        parentElem=event.target.parentNode.parentNode.parentNode;
+    }
+    let taskTitle=parentElem.childNodes[5].childNodes[1];
+    let taskDescription=parentElem.childNodes[5].childNodes[3];
+    let taskType=parentElem.childNodes[5].childNodes[5];
+    let submitButton=parentElem.childNodes[7].childNodes[1];
+    const updatedData={
+        taskTitle:taskTitle.innerHTML,
+        taskType:taskType.innerHTML,
+        taskDescription:taskDescription.innerHTML,
+    }
+    //console.log(updatedData);
+    
+    globalStore=globalStore.map((task)=>{
+        if(task.id===targetID){
+            return {
+                id:task.id,
+                imageUrl:task.imageUrl,
+                taskTitle:updatedData.taskTitle,
+                taskDescription:updatedData.taskDescription,
+                taskType:updatedData.taskType,
+            };
+        }
+        return task; //important to save changes
+    });
+    localStorage.setItem("tasky", JSON.stringify({cards:globalStore}))
+}
 
 const editCard=(event)=>{
 
@@ -87,14 +123,8 @@ const editCard=(event)=>{
         }
         let submitButton=children[7].childNodes[1];
         submitButton.innerHTML="Save Changes";
+        submitButton.setAttribute("onclick","saveEditChanges.apply(this,arguments)");
     }
-
-    /*
-    let taskTitle=parentElement.childNodes[5].childNodes[1];
-    let taskDescription=parentElement.childNodes[5].childNodes[3];
-    let taskType=parentElement.childNodes[5].childNodes[5];
-    taskTitle.setAttribute("content-editable",true);....
-    */
 
     event=window.event;
     const targetID=event.target.id;
