@@ -105,6 +105,10 @@ const saveEditChanges=(event)=>{
         return task; //important to save changes
     });
     localStorage.setItem("tasky", JSON.stringify({cards:globalStore}))
+    taskTitle.setAttribute("contentEditable",false);
+    taskDescription.setAttribute("contentEditable",false);
+    taskType.setAttribute("contentEditable",false);
+    submitButton.innerHTML="Open Task";
 }
 
 const editCard=(event)=>{
