@@ -219,6 +219,21 @@ bookilicious.put("/book/update/author/:isbn/:authorID",(req,res)=>{
 });
 
 /*
+Route         :/book/delete
+Description   :delete a book
+Access        :PUBLIC
+Parameter     :isbn
+Methods       :DELETE
+*/
+bookilicious.delete("/book/delete/:isbn",(req,res)=>{
+    //filter all arrays which dont match with isbn
+    let updatedBookDatabase=database.books.filter((book)=>book.ISBN!==req.params.isbn);
+
+    database.books=updatedBookDatabase;
+    return res.json({books:database.books});
+});
+
+/*
 Route         :/author/add
 Description   :add new author
 Access        :PUBLIC
@@ -248,7 +263,33 @@ bookilicious.put("/author/update/name/:id",(req,res)=>{
     res.json({author:database.author});
 });
 
+/*
+Route         :/book/delete/author
+Description   :delete an author
+Access        :PUBLIC
+Parameter     :isbn,authorId
+Methods       :DELETE
+*/
+bookilicious.delete("/book/delete/author/:isbn/:authorId",(req,res)=>{
+    //update book database
+    database.books.forEach((book)=>{
+        if(book.ISBN===req.params.isbn){
+            const newAuthorList=book.authors.filter((author)=>author.id!==parseInt(req.params.authorId));
+            book.authors=newAuthorList;
+            return;
+        }
+    });
 
+    //update author database
+    database.author.forEach((auth)=>{
+        if(auth.id===parseInt(req.params.authorId)){
+            const newBooksList=author.books.filter((book)=>book!=req.params.isbn);
+            database.author.books=newBooksList;
+            return;
+        };
+    });
+    return res.json({book:database.books,author:database.author,message:"author was deleted"});
+});
 
 /*
 Route         :/publication/add
@@ -304,6 +345,42 @@ bookilicious.put("/publication/update/book/:isbn",(req,res)=>{
     });
     return res.json({books:database.books,publication:database.publication});
 });
+
+/*
+Route         :/book/delete/publication
+Description   :delete a book from publication
+Access        :PUBLIC
+Parameter     :isbn,pubId
+Methods       :DELETE
+*/
+bookilicious.delete("/book/delete/publication/:isbn/:pubId",(req,res)=>{
+    //update publication database
+    database.publication.forEach((pub)=>{
+        if(pub.id===parseInt(req.params.pubId)){
+            const newBooksList=publication.books.filter((book)=>book!==req.params.isbn);
+            pub.books=newBooksList;
+            return;
+        }
+    });
+
+    //update book database
+    //instead of deleting publication , make value as zero
+    database.books.forEach((book)=>{
+        if(book.ISBN===req.params.isbn){
+            book.publication=0;
+        }
+    });
+
+    return res.json({books:database.books,publication:database.publication});
+});
+
+/*
+Route         :/publication/delete
+Description   :delete a publication
+Access        :PUBLIC
+Parameter     :isbn,id
+Methods       :DELETE
+*/
 
 bookilicious.listen(3000,()=>console.log("hey, server is running"));
 
