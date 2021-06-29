@@ -1,3 +1,5 @@
+require("dotenv").config();
+
 const express=require("express");
 
 //import database
@@ -6,8 +8,18 @@ const database=require("./database");
 //initialisation
 const bookilicious=express();
 
+//mongodb
+const mongoose = require('mongoose');
+
 //configuaration
 bookilicious.use(express.json());
+
+mongoose.connect(process.env.MONGO_URL, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    useFindAndModify: false,
+    useCreateIndex: true
+}).then(()=>console.log("connection established"));
 
 /*
 Route         :/
