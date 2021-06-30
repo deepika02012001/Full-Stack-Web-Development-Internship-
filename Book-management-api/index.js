@@ -3,7 +3,7 @@ require("dotenv").config();
 const express=require("express");
 
 //import database
-const database=require("./database");
+const database=require("./database/index.js");
 
 //initialisation
 const bookilicious=express();
