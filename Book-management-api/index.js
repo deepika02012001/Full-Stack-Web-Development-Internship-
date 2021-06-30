@@ -3,7 +3,12 @@ require("dotenv").config();
 const express=require("express");
 
 //import database
-const database=require("./database/index.js");
+const database=require("./database/index");
+
+//Models
+const BookModel=require("./database/book");
+const AuthorModel=require("./database/author");
+const PublicationModel=require("./database/publication");
 
 //initialisation
 const bookilicious=express();
@@ -28,8 +33,9 @@ Access        :PUBLIC
 Parameter     :NONE
 Methods       :GET
 */
-bookilicious.get("/",(req,res)=>{
-    return res.json({books: database.books});
+bookilicious.get("/", async (req,res)=>{
+    const getAllBooks=await BookModel.find();
+    return res.json({getAllBooks});
 });
 
 /*
@@ -39,10 +45,12 @@ Access        :PUBLIC
 Parameter     :isbn
 Methods       :GET
 */
-bookilicious.get("/is/:isbn",(req,res)=>{
-    const getSpecificBook=database.books.filter((book)=> book.ISBN===req.params.isbn);
+bookilicious.get("/is/:isbn", async (req,res)=>{
+    
+    const getSpecificBook= await BookModel.findOne({ISBN:req.params.isbn});
+    //const getSpecificBook=database.books.filter((book)=> book.ISBN===req.params.isbn);
 
-    if(getSpecificBook.length===0){
+    if(!getSpecificBook){
         return res.json({error:`No Book Found for the ISBN:${req.params.isbn}`});
     }
     return res.json({book: getSpecificBook});
@@ -55,10 +63,13 @@ Access        :PUBLIC
 Parameter     :category
 Methods       :GET
 */
-bookilicious.get("/c/:category",(req,res)=>{
-    const getSpecificBook=database.books.filter((book)=>book.category.includes(req.params.category));
+bookilicious.get("/c/:category", async (req,res)=>{
+    
+    const getSpecificBook=await BookModel.findOne({category: req.params.category})
+    
+    //const getSpecificBook=database.books.filter((book)=>book.category.includes(req.params.category));
     //compare with each category element since its an array of strings
-    if(getSpecificBook.length===0){
+    if(!getSpecificBook){ //it can result in null
         return res.json({error: `No book found for the Category: ${req.params.category}`});
     }
     return res.json({book: getSpecificBook});
@@ -172,9 +183,11 @@ Access        :PUBLIC
 Parameter     :NONE
 Methods       :POST
 */
-bookilicious.post("/book/add",(req,res)=>{
-    const {newBook}=req.body; //destructuring
-    database.books.push(newBook);
+bookilicious.post("/book/add", async (req,res)=>{
+    const {newBook}= await req.body; //destructuring
+    //database.books.push(newBook);
+    const addNewBook=BookModel.create(newBook);
+
     return res.json({books:database.books});
 
 });

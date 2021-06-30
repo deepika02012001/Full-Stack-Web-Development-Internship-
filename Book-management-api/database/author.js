@@ -11,7 +11,9 @@ const AuthorSchema=mongoose.Schema({
 
 //create author model
 
-const AuthorModel=mongoose.model(AuthorSchema);
+const AuthorModel=mongoose.model("authors",AuthorSchema);
+
+//authors- in atlas mongodb we have a collection name as authors
 
 module.exports=AuthorModel;
 
