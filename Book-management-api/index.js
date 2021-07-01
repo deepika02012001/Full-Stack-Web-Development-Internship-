@@ -35,7 +35,7 @@ Methods       :GET
 */
 bookilicious.get("/", async (req,res)=>{
     const getAllBooks=await BookModel.find();
-    return res.json({getAllBooks});
+    return res.json(getAllBooks);
 });
 
 /*
@@ -48,8 +48,7 @@ Methods       :GET
 bookilicious.get("/is/:isbn", async (req,res)=>{
     
     const getSpecificBook= await BookModel.findOne({ISBN:req.params.isbn});
-    //const getSpecificBook=database.books.filter((book)=> book.ISBN===req.params.isbn);
-
+    
     if(!getSpecificBook){
         return res.json({error:`No Book Found for the ISBN:${req.params.isbn}`});
     }
@@ -67,7 +66,6 @@ bookilicious.get("/c/:category", async (req,res)=>{
     
     const getSpecificBook=await BookModel.findOne({category: req.params.category})
     
-    //const getSpecificBook=database.books.filter((book)=>book.category.includes(req.params.category));
     //compare with each category element since its an array of strings
     if(!getSpecificBook){ //it can result in null
         return res.json({error: `No book found for the Category: ${req.params.category}`});
@@ -82,9 +80,9 @@ Access        :PUBLIC
 Parameter     :language
 Methods       :GET
 */
-bookilicious.get("/l/:language",(req,res)=>{
-    const getSpecificBook=database.books.filter((book)=>book.language===req.params.language);
-    if(getSpecificBook.length===0){
+bookilicious.get("/l/:language", async (req,res)=>{
+    const getSpecificBook= await BookModel.findOne({language: req.params.language});
+    if(!getSpecificBook){
         return res.json({error:`No book found for language: ${req.params.language}`});
     }
     return res.json({book: getSpecificBook});
@@ -99,8 +97,10 @@ Access        :PUBLIC
 Parameter     :NONE
 Methods       :GET
 */
-bookilicious.get("/author",(req,res)=>{
-    return res.json({authors:database.author});
+bookilicious.get("/author", async (req,res)=>{
+
+    const getAuthors= await AuthorModel.find();
+    return res.json(getAuthors);
 });
 
 /*
@@ -110,9 +110,9 @@ Access        :PUBLIC
 Parameter     :authid
 Methods       :GET
 */
-bookilicious.get("/authorid/:authid",(req,res)=>{
-    const getSpecificAuthor=database.author.filter((authors)=>authors.id==req.params.authid);
-    if(getSpecificAuthor.length===0){
+bookilicious.get("/authorid/:authid", async (req,res)=>{
+    const getSpecificAuthor= await AuthorModel.findOne({id: req.params.authid});
+    if(!getSpecificAuthor){
         return res.json({error:`No author found of id:${req.params.authid}`});
     }
     return res.json({author: getSpecificAuthor});
@@ -141,8 +141,10 @@ Access        :PUBLIC
 Parameter     :NONE
 Methods       :GET
 */
-bookilicious.get("/publications",(req,res)=>{
-    return res.json({data:database.publication});
+bookilicious.get("/publications", async (req,res)=>{
+
+    const getPublication= await PublicationModel.find();
+    return res.json(getPublication);
 });
 
 /*
@@ -152,9 +154,9 @@ Access        :PUBLIC
 Parameter     :id
 Methods       :GET
 */
-bookilicious.get("/pubid/:id",(req,res)=>{
-    const getSpecificPub=database.publication.filter((pub)=>pub.id==req.params.id);
-    if(getSpecificPub.length===0){
+bookilicious.get("/pubid/:id", async (req,res)=>{
+    const getSpecificPub= await PublicationModel.findOne({id: req.params.id});
+    if(!getSpecificPub){
         return res.json({error:`No publication found for the id:${req.params.id}`});
     }
     return res.json({pub: getSpecificPub});
@@ -185,10 +187,12 @@ Methods       :POST
 */
 bookilicious.post("/book/add", async (req,res)=>{
     const {newBook}= await req.body; //destructuring
-    //database.books.push(newBook);
+    
     const addNewBook=BookModel.create(newBook);
 
-    return res.json({books:database.books});
+    const getBooks= BookModel.find();
+
+    return res.json({books: getBooks});
 
 });
 
@@ -200,23 +204,17 @@ Parameter     :isbn
 Methods       :PUT
 */
 // "/book/update/:isbn/title" or "/book/update/:isbn/:title"
-bookilicious.put("/book/update/title/:isbn",(req,res)=>{
-    //we can use foreach or map
-    //foreach updates in database directly
-    //map returns new updated array-its expensive since it creates many new array everytime replacing
+bookilicious.put("/book/update/title/:isbn", async (req,res)=>{
     /*
     give in postman "put":
     {
     "newBookTitle": "Hello MERN 2nd Edition"
     }
     */
-    database.books.forEach((book)=>{
-        if(book.ISBN===req.params.isbn){
-            book.title=req.body.newBookTitle;
-            return;
-        }
-    });
-    return res.json({books: database.books});
+    const updatedBook= await BookModel.findOneAndUpdate({ISBN: req.params.isbn},{title: req.body.bookTitle},{new: true});
+    //update takes two arguments, first find, second is update, third is to return new updated data.
+    
+    return res.json({books: updatedBook});
 });
 
 /*
@@ -265,10 +263,13 @@ Access        :PUBLIC
 Parameter     :NONE
 Methods       :POST
 */
-bookilicious.post("/author/add",(req,res)=>{
-    const {newAuthor}=req.body; //destructuring
-    database.author.push(newAuthor);
-    return res.json({author:database.author});
+bookilicious.post("/author/add", async (req,res)=>{
+    const {newAuthor}= await req.body; //destructuring
+
+    const addNewAuthor = AuthorModel.create(newAuthor);
+
+    const getAuthors= AuthorModel.find();
+    return res.json({author: getAuthors});
 });
 
 /*
@@ -323,10 +324,12 @@ Access        :PUBLIC
 Parameter     :NONE
 Methods       :POST
 */
-bookilicious.post("/publication/add",(req,res)=>{
-    const newPub=req.body;
-    database.publication.push(newPub);
-    res.json({publication:database.publication});
+bookilicious.post("/publication/add", async (req,res)=>{
+    const {newPub}= await req.body;
+    
+    const addNewPub= PublicationModel.create(newPub);
+    const getPublications= PublicationModel.find(); 
+    res.json({publication: getPublications});
 });
 
 /*
