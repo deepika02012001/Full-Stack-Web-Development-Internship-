@@ -221,24 +221,17 @@ bookilicious.put("/book/update/title/:isbn", async (req,res)=>{
 Route         :/book/update/author
 Description   :update/add new author for a book
 Access        :PUBLIC
-Parameter     :isbn,authorID
+Parameter     :isbn
 Methods       :PUT
 */
-bookilicious.put("/book/update/author/:isbn/:authorID",(req,res)=>{
+bookilicious.put("/book/update/author/:isbn", async (req,res)=>{
     //update book database:
-    database.books.forEach((book)=>{
-        if(book.ISBN===req.params.isbn){
-            return book.author.push(parseInt(req.params.authorID));//its integer but default string format
-        }
-    });
+    const updatedBook= await BookModel.findOneAndUpdate({ISBN: req.params.isbn},{$addToSet: {authors: req.body.newAuthor}},{new: true});
 
     //update author database
-    database.author.forEach((author)=>{
-        if(author.id===parseInt(req.params.authorID)){
-            return author.books.push(req.params.isbn);
-        }
-    });
-    return res.json({books:database.books,author:database.author});
+    const updatedAuthor= await AuthorModel.findOneAndUpdate({id: req.body.newAuthor},{$addToSet: {books: req.params.isbn}},{new:true});
+
+    return res.json({books: updatedBook,author: updatedAuthor});
 });
 
 /*
