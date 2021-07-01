@@ -241,12 +241,11 @@ Access        :PUBLIC
 Parameter     :isbn
 Methods       :DELETE
 */
-bookilicious.delete("/book/delete/:isbn",(req,res)=>{
+bookilicious.delete("/book/delete/:isbn", async (req,res)=>{
     //filter all arrays which dont match with isbn
-    let updatedBookDatabase=database.books.filter((book)=>book.ISBN!==req.params.isbn);
+    const updatedBookDatabase= await BookModel.findOneAndDelete({ISBN: req.params.isbn});
 
-    database.books=updatedBookDatabase;
-    return res.json({books:database.books});
+    return res.json({message: "Deleted"});
 });
 
 /*
@@ -289,25 +288,13 @@ Access        :PUBLIC
 Parameter     :isbn,authorId
 Methods       :DELETE
 */
-bookilicious.delete("/book/delete/author/:isbn/:authorId",(req,res)=>{
+bookilicious.delete("/book/delete/author/:isbn/:authorId", async (req,res)=>{
     //update book database
-    database.books.forEach((book)=>{
-        if(book.ISBN===req.params.isbn){
-            const newAuthorList=book.authors.filter((author)=>author.id!==parseInt(req.params.authorId));
-            book.authors=newAuthorList;
-            return;
-        }
-    });
+    const UpdatedBook= await BookModel.findOneAndUpdate({ISBN: req.params.isbn},{$pull:{authors: parseInt(req.params.authorId)}},{new: true});
 
     //update author database
-    database.author.forEach((auth)=>{
-        if(auth.id===parseInt(req.params.authorId)){
-            const newBooksList=author.books.filter((book)=>book!=req.params.isbn);
-            database.author.books=newBooksList;
-            return;
-        };
-    });
-    return res.json({book:database.books,author:database.author,message:"author was deleted"});
+    const updatedAuthor = await AuthorModel.findOneAndUpdate({id: parseInt(req.params.authorId)},{$pull:{books: req.params.isbn}},{new: true});
+    return res.json({book: updatedBook,author: updatedAuthor,message:"author was deleted"});
 });
 
 /*
