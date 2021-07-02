@@ -65,7 +65,7 @@ Methods       :GET
 bookilicious.get("/c/:category", async (req,res)=>{
     
     const getSpecificBook=await BookModel.findOne({category: req.params.category})
-    
+    //find() gives all books with given category name
     //compare with each category element since its an array of strings
     if(!getSpecificBook){ //it can result in null
         return res.json({error: `No book found for the Category: ${req.params.category}`});
@@ -125,10 +125,11 @@ Access        :PUBLIC
 Parameter     :isbn
 Methods       :GET
 */
-bookilicious.get("/authbook/:isbn",(req,res)=>{
-    const getSpecificAuthor=database.author.filter((authors)=>authors.books.includes(req.params.isbn));
+bookilicious.get("/authbook/:isbn", async (req,res)=>{
+    const myisbn=req.params.isbn;
+    const getSpecificAuthor= await AuthorModel.findOne({books: {$in:[req.params.isbn]}});
     //compare with each category element since its an array of strings
-    if(getSpecificAuthor.length===0){
+    if(!getSpecificAuthor){
         return res.json({error: `No Author found for the ISBN: ${req.params.isbn}`});
     }
     return res.json({author: getSpecificAuthor});
@@ -169,9 +170,9 @@ Access        :PUBLIC
 Parameter     :isbn
 Methods       :GET
 */
-bookilicious.get("/pubbooks/:isbn",(req,res)=>{
-    const getSpecificPub=database.publication.filter((pub)=>pub.books.includes(req.params.isbn));
-    if(getSpecificPub.length===0){
+bookilicious.get("/pubbooks/:isbn", async (req,res)=>{
+    const getSpecificPub= await PublicationModel.findOne({books:{$in:[req.params.isbn]}});
+    if(!getSpecificPub){
         return res.json({error:`No publication for the book of isbn:${req.params.isbn}`})
     }
     return res.json({pub: getSpecificPub});
@@ -190,9 +191,7 @@ bookilicious.post("/book/add", async (req,res)=>{
     
     const addNewBook=BookModel.create(newBook);
 
-    const getBooks= BookModel.find();
-
-    return res.json({books: getBooks});
+    return res.json({message: "book was added"});
 
 });
 
@@ -260,8 +259,7 @@ bookilicious.post("/author/add", async (req,res)=>{
 
     const addNewAuthor = AuthorModel.create(newAuthor);
 
-    const getAuthors= AuthorModel.find();
-    return res.json({author: getAuthors});
+    return res.json({message: "author was added"});
 });
 
 /*
@@ -271,14 +269,13 @@ Access        :PUBLIC
 Parameter     :id
 Methods       :PUT
 */
-bookilicious.put("/author/update/name/:id",(req,res)=>{
-    database.author.forEach((auth)=>{
-        if(auth.id===parseInt(req.params.id)){
-            auth.name=req.body.newAuthorName;
-        }
-        return;
-    });
-    res.json({author:database.author});
+bookilicious.put("/author/update/name/:id", async (req,res)=>{
+    const updatedAuthor= await AuthorModel.findOneAndUpdate({id: parseInt(req.params.id)},{name: req.body.authName},{new:true});
+    
+    if(!updatedAuthor){
+        return res.json({error: `No author with id : ${req.params.id}`});
+    }
+    return res.json({author: updatedAuthor});
 });
 
 /*
@@ -293,7 +290,7 @@ bookilicious.delete("/book/delete/author/:isbn/:authorId", async (req,res)=>{
     const UpdatedBook= await BookModel.findOneAndUpdate({ISBN: req.params.isbn},{$pull:{authors: parseInt(req.params.authorId)}},{new: true});
 
     //update author database
-    const updatedAuthor = await AuthorModel.findOneAndUpdate({id: parseInt(req.params.authorId)},{$pull:{books: req.params.isbn}},{new: true});
+    const updatedAuthor = await AuthorModel.findOneAndDelete({id: parseInt(req.params.authorId)});
     return res.json({book: updatedBook,author: updatedAuthor,message:"author was deleted"});
 });
 
@@ -308,8 +305,8 @@ bookilicious.post("/publication/add", async (req,res)=>{
     const {newPub}= await req.body;
     
     const addNewPub= PublicationModel.create(newPub);
-    const getPublications= PublicationModel.find(); 
-    res.json({publication: getPublications});
+    
+    res.json({message:"publication was added"});
 });
 
 /*
@@ -319,14 +316,12 @@ Access        :PUBLIC
 Parameter     :id
 Methods       :PUT
 */
-bookilicious.put("/publication/update/name/:id",(req,res)=>{
-    database.publication.forEach((pub)=>{
-        if(pub.id===parseInt(req.params.id)){
-            pub.name=req.body.newPubName;
-        }
-        return;
-    });
-    return res.json({publication:database.publication});
+bookilicious.put("/publication/update/name/:id", async (req,res)=>{
+    const updatedPublication= await PublicationModel.findOneAndUpdate({id: parseInt(req.params.id)},{name: req.body.pubName},{new: true});
+    if(!updatedPublication){
+        return res.json({error: `no publication found for id : ${req.params.id}`});
+    }
+    return res.json({publication: updatedPublication});
 });
 
 /*
@@ -337,21 +332,14 @@ Parameter     :isbn
 Methods       :PUT
 removing old publication from books and adding new publication.
 */
-bookilicious.put("/publication/update/book/:isbn",(req,res)=>{
+bookilicious.put("/publication/update/book/:isbn", async (req,res)=>{
     //update the publication database
-    database.publication.forEach((publication)=>{
-        if(publication.id===req.body.pubId){
-            publication.books.push(req.params.isbn);
-        }
-    });
+    const updatePublication= await PublicationModel.findOneAndUpdate({id: req.body.pubId},{$addToSet:{books: req.params.isbn}},{new: true});
+    
     //update the books database- publication attribute
-    database.books.forEach((book)=>{
-        if(book.ISBN===req.params.isbn){
-            book.publication=req.body.pubId;
-            return;
-        }
-    });
-    return res.json({books:database.books,publication:database.publication});
+    const updatedBook= await BookModel.findOneAndUpdate({ISBN: req.params.isbn},{$addToSet:{publication: req.body.pubId}},{new: true});
+
+    return res.json({message: "book updated to publication"});
 });
 
 /*
@@ -361,25 +349,14 @@ Access        :PUBLIC
 Parameter     :isbn,pubId
 Methods       :DELETE
 */
-bookilicious.delete("/book/delete/publication/:isbn/:pubId",(req,res)=>{
+bookilicious.delete("/book/delete/publication/:isbn/:pubId", async (req,res)=>{
     //update publication database
-    database.publication.forEach((pub)=>{
-        if(pub.id===parseInt(req.params.pubId)){
-            const newBooksList=publication.books.filter((book)=>book!==req.params.isbn);
-            pub.books=newBooksList;
-            return;
-        }
-    });
-
+    const updatedPublication= await PublicationModel.findOneAndUpdate({id: parseInt(req.params.pubId)},{$pull:{books: req.params.isbn}},{new:true});
+    
     //update book database
-    //instead of deleting publication , make value as zero
-    database.books.forEach((book)=>{
-        if(book.ISBN===req.params.isbn){
-            book.publication=0;
-        }
-    });
+    const updatedBook= await BookModel.findOneAndUpdate({ISBN: req.params.isbn},{publication: 0},{new:true});
 
-    return res.json({books:database.books,publication:database.publication});
+    return res.json({message: "book deleted from publication"});
 });
 
 /*
@@ -389,25 +366,14 @@ Access        :PUBLIC
 Parameter     :isbn,pubId
 Methods       :DELETE
 */
-bookilicious.delete("/publication/delete/:isbn/:pubId",(req,res)=>{
+bookilicious.delete("/publication/delete/:isbn/:pubId", async (req,res)=>{
     //update book database
-    database.books.forEach((book)=>{
-        if(book.ISBN===req.params.isbn){
-            const newPubList=book.publications.filter((pub)=>pub.id!==parseInt(req.params.pubId));
-            book.publications=newPubList;
-            return;
-        }
-    });
+    const updatedBook= await BookModel.findOneAndUpdate({ISBN: req.params.isbn},{$pull: {publication: req.params.pubId}},{new: true});
 
     //update publication database
-    database.publication.forEach((pub)=>{
-        if(pub.id===parseInt(req.params.pubId)){
-            const newBooksList=publication.books.filter((book)=>book!=req.params.isbn);
-            database.publication.books=newBooksList;
-            return;
-        };
-    });
-    return res.json({book:database.books,publication:database.publication,message:"publication was deleted"});
+    const updatedPublication= await PublicationModel.findOneAndDelete({id: parseInt(req.params.pubId)});
+    
+    return res.json({message:"publication was deleted"});
 
 });
 
