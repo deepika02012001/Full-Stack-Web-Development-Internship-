@@ -187,12 +187,16 @@ Parameter     :NONE
 Methods       :POST
 */
 bookilicious.post("/book/add", async (req,res)=>{
-    const {newBook}= await req.body; //destructuring
+    try{
+        const {newBook}= await req.body; //destructuring
     
-    const addNewBook=BookModel.create(newBook);
+        await BookModel.create(newBook);
 
-    return res.json({message: "book was added"});
-
+        return res.json({message: "book was added"});
+    }
+    catch(error){
+        return res.json({error: error.message});
+    }
 });
 
 /*
@@ -255,11 +259,16 @@ Parameter     :NONE
 Methods       :POST
 */
 bookilicious.post("/author/add", async (req,res)=>{
-    const {newAuthor}= await req.body; //destructuring
+    try{
+        const {newAuthor}= await req.body; //destructuring
 
-    const addNewAuthor = AuthorModel.create(newAuthor);
+        await AuthorModel.create(newAuthor);
 
-    return res.json({message: "author was added"});
+        return res.json({message: "author was added"});
+    }
+    catch(error){
+        return res.json({error: error.message});
+    }
 });
 
 /*
@@ -302,11 +311,16 @@ Parameter     :NONE
 Methods       :POST
 */
 bookilicious.post("/publication/add", async (req,res)=>{
-    const {newPub}= await req.body;
+    try{
+        const {newPub}= await req.body;
     
-    const addNewPub= PublicationModel.create(newPub);
+        await PublicationModel.create(newPub);
     
-    res.json({message:"publication was added"});
+        res.json({message:"publication was added"});
+    }
+    catch(error){
+        return res.json({error: error.message});
+    }
 });
 
 /*
