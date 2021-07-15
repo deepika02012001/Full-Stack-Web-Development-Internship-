@@ -2,6 +2,7 @@ import React from "react";
 
 // Components
 import EntertainmentCardSlider from "../components/Entertainment/Entertainmentcard.component";
+import Premiere from "../components/Premiere/Premiere.component";
 
 import SimpleInfo from "../components/SimpleInfo/SimpleInfo.component";
 
@@ -14,6 +15,7 @@ const HomePage = () => {
           The best of Entertainment
         </h1>
         <EntertainmentCardSlider />
+        <Premiere />
       </div>
     </>
   );
