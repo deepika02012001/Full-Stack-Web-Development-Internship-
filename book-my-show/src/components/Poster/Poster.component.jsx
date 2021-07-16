@@ -7,7 +7,7 @@ const Poster=(props)=>{
             <div className="h-80">
                 <img src={props.src} alt={props.title} className="w-full h-full rounded-xl" />
             </div>
-            <h3 className={`text-lg font-bold ${props.isDark ? "text-white" : "text-gray-700"}`}>{props.title}</h3>
+            <h3 className={`text-lg font-bold text-white ${props.isDark ? "text-white" : "text-gray-700"}`}>{props.title}</h3>
             <h4 className={`text-sm ${props.isDark ? "text-white" : "text-gray-700"}`}>{props.subtitle}</h4>
         </div>
         </>
