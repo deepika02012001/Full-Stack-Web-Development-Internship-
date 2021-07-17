@@ -12,7 +12,7 @@ const HomePage = () => {
   return (
     <>
     <div className="flex flex-col gap-10">
-      <div className="container mx-auto px-8">
+      <div className="container mx-auto px-4">
       <SimpleInfo />
         <h1 className="text-2xl font-bold text-gray-800 my-3">
           The best of Entertainment

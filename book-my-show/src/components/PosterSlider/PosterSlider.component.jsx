@@ -11,7 +11,7 @@ const PosterSlider=(props)=>{
         <>
         <div className="flex flex-col items-start my-2">
           <h3 className={`text-2xl font-bold ${props.isDark ? "text-white" : "text-gray-700"}`}>{props.title}</h3>
-          <p className={`text-xl font-bold ${props.isDark ? "text-white" : "text-gray-700"}`}>{props.subtitle}</p>
+          <p className={`text-sm ${props.isDark ? "text-white" : "text-gray-700"}`}>{props.subtitle}</p>
         </div>
         <Slider {...PosterCarouselSettings}>
             {props.images.map((image) => (
