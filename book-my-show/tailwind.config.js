@@ -19,6 +19,12 @@ module.exports = {
         },
         postercolor:{
           50:'#2b3148'
+        },
+        stream1:{
+          50:'#4d4d4d'
+        },
+        stream2:{
+          50:'#e6e6e6'
         }
       }
     },
