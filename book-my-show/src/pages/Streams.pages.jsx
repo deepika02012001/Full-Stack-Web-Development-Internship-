@@ -38,16 +38,24 @@ const StreamsPage=()=>{
 
     return (
         <>
-        <div className="my-10 container px-2 lg:ml-10 lg:w-4/5">
-            <div className="my-8">
+        <div className="flex flex-col gap-10">
+            <div className="container mx-auto px-4 my-4">
+            <img className="w-full h-full" src="https://in.bmscdn.com/discovery-catalog/collections/tr:w-1440,h-120/available-buy-rent-strip-web-collection-202103160404.png" alt="stream1" />
+            </div>
+            <div className="container mx-auto px-4">
             <h2 className="text-gray-800 font-bold text-2xl my-4">Premiere of the Week</h2>
                 <PosterSlider config={settings} images={TempPosters} title="" isDark={false} />
             </div>
-            <div className="my-8">
-                <hr />
-            </div>
-            <div className="my-8">
+            <div className="container mx-auto px-4">
             <h2 className="text-gray-800 font-bold text-2xl my-4">Bundles</h2>
+                <PosterSlider config={settings} images={TempPosters} title="" isDark={false} />
+            </div>
+            <div className="container mx-auto px-4">
+            <h2 className="text-gray-800 font-bold text-2xl my-4">Mind Game Movies</h2>
+                <PosterSlider config={settings} images={TempPosters} title="" isDark={false} />
+            </div>
+            <div className="container mx-auto px-4">
+            <h2 className="text-gray-800 font-bold text-2xl my-4">Stream Recommends</h2>
                 <PosterSlider config={settings} images={TempPosters} title="" isDark={false} />
             </div>
         </div>

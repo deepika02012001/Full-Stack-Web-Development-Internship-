@@ -25,6 +25,9 @@ module.exports = {
         },
         stream2:{
           50:'#e6e6e6'
+        },
+        stream3:{
+          50:'#e6dfdf'
         }
       }
     },
