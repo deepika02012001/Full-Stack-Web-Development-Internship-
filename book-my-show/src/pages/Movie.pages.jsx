@@ -1,5 +1,11 @@
-import React from "react";
+import React, {useContext, useEffect, useState} from "react";
 import {FaCcVisa, FaCcApplePay} from "react-icons/fa";
+import axios from "axios";
+import { useParams } from "react-router";
+import Slider from "react-slick";
+
+//context
+import {MovieContext} from "../context/movie.context";
 
 //component
 import MovieHero from "../components/MovieHero/MovieHero.component";
@@ -10,39 +16,104 @@ import TempPosters from "../config/TempPosters.config";
 import PosterSlider from "../components/PosterSlider/PosterSlider.component";
 
 const MoviePage=()=>{
+    const {id}=useParams();
+    const {movie}=useContext(MovieContext);
+    const [cast, setCast]=useState([]);
+    const [similarMovies, setSimilarMovies] = useState([]);
+    const [recommended, setRecommended] = useState([]);
+
+    useEffect(() => {
+      const requestCast = async () => {
+        const getCast = await axios.get(`/movie/${id}/credits`);
+        setCast(getCast.data.cast);
+      };
+      requestCast();
+    }, [id]);
+
+    useEffect(() => {
+      const requestSimilarMovies = async () => {
+        const getSimilarMovies = await axios.get(`/movie/${id}/similar`);
+        setSimilarMovies(getSimilarMovies.data.results);
+      };
+  
+      requestSimilarMovies();
+    }, [id]);
+  
+    useEffect(() => {
+      const requestRecommendedMovies = async () => {
+        const getRecommendedMovies = await axios.get(
+          `/movie/${id}/recommendations`
+        );
+        setRecommended(getRecommendedMovies.data.results);
+      };
+  
+      requestRecommendedMovies();
+    }, [id]);
 
     const settings = {
-        infinite: false,
-        speed: 500,
-        slidesToShow: 4,
-        slidesToScroll: 4,
-        initialSlide: 0,
-        responsive: [
-          {
-            breakpoint: 1024,
-            settings: {
-              slidesToShow: 3,
-              slidesToScroll: 3,
-              infinite: true,
-            },
+      infinite: false,
+      speed: 500,
+      slidesToShow: 4,
+      slidesToScroll: 4,
+      initialSlide: 0,
+      responsive: [
+        {
+          breakpoint: 1024,
+          settings: {
+            slidesToShow: 3,
+            slidesToScroll: 3,
+            infinite: true,
           },
-          {
-            breakpoint: 600,
-            settings: {
-              slidesToShow: 2,
-              slidesToScroll: 2,
-              initialSlide: 2,
-            },
+        },
+        {
+          breakpoint: 600,
+          settings: {
+            slidesToShow: 2,
+            slidesToScroll: 2,
+            initialSlide: 2,
           },
-          {
-            breakpoint: 480,
-            settings: {
-              slidesToShow: 3,
-              slidesToScroll: 1,
-            },
+        },
+        {
+          breakpoint: 480,
+          settings: {
+            slidesToShow: 3,
+            slidesToScroll: 1,
           },
-        ],
-      };
+        },
+      ],
+    };
+    const settingsCast = {
+      infinite: false,
+      speed: 500,
+      slidesToShow: 6,
+      slidesToScroll: 4,
+      initialSlide: 0,
+      responsive: [
+        {
+          breakpoint: 1024,
+          settings: {
+            slidesToShow: 4,
+            slidesToScroll: 3,
+            infinite: true,
+          },
+        },
+        {
+          breakpoint: 600,
+          settings: {
+            slidesToShow: 5,
+            slidesToScroll: 2,
+            initialSlide: 2,
+          },
+        },
+        {
+          breakpoint: 480,
+          settings: {
+            slidesToShow: 2,
+            slidesToScroll: 1,
+          },
+        },
+      ],
+    };
       
 
     return (
@@ -52,7 +123,7 @@ const MoviePage=()=>{
             <div className="flex flex-col items-start gap-3">
             <h2 className="text-gray-800 font-bold text-2xl">About the movie</h2>
             <p>
-            Kong is on a journey to find his true home but gets in the way of an enraged Godzilla. The epic clash is only the beginning of the mystery that lies within the core of the Earth. 
+            {movie.overview} 
             </p>
             </div>
             <div className="my-8">
@@ -86,26 +157,25 @@ const MoviePage=()=>{
             </div>
             <div className="my-8">
             <h2 className="text-gray-800 font-bold text-2xl my-4">Cast & Crew</h2>
-            <div className="flex flex-wrap gap-4">
-                <Cast image="https://in.bmscdn.com/iedb/artist/images/website/poster/large/alexander-skarsgard-1057902-24-03-2017-13-51-10.jpg" castName="Alexander Skarsgard" role="Nathan Lind" />
-                <Cast image="https://in.bmscdn.com/iedb/artist/images/website/poster/large/millie-bobby-brown-1079885-24-05-2019-05-20-16.jpg" castName="Millie Bobby Brown" role="Madison Russel" />
-                <Cast image="https://in.bmscdn.com/iedb/artist/images/website/poster/large/rebecca-hall-7076-11-09-2017-05-49-56.jpg" castName="Rebecca Hall" role="Ilene Andrews" />
-                <Cast image="https://in.bmscdn.com/iedb/artist/images/website/poster/large/brian-tyree-henry-1096515-26-10-2018-14-45-47.jpg" castName="Brian Tyree Henry" role="Bernie Hayes" />
-            </div>
+              <Slider {...settingsCast}>
+                {cast.map((castdata)=>
+                <Cast image={`https://image.tmdb.org/t/p/original/${castdata.profile_path}`} castName={castdata.original_name} role={castdata.character} />
+                )}
+              </Slider>
             </div>
             <div className="my-8">
                 <hr />
             </div>
             <div className="my-8">
             <h2 className="text-gray-800 font-bold text-2xl my-4">You might also like</h2>
-                <PosterSlider config={settings} images={TempPosters} title="" isDark={false} />
+                <PosterSlider config={settings} images={similarMovies} title="" isDark={false} />
             </div>
             <div className="my-8">
                 <hr />
             </div>
             <div className="my-8">
             <h2 className="text-gray-800 font-bold text-2xl my-4">BMS XCLUSIV</h2>
-                <PosterSlider config={settings} images={TempPosters} title="" isDark={false} />
+                <PosterSlider config={settings} images={recommended} title="" isDark={false} />
             </div>
         </div>
     </>
