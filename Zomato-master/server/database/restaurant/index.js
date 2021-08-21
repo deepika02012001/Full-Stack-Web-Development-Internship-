@@ -1,10 +1,10 @@
 import mongoose from "mongoose";
 
 const RestaurantSchema=new mongoose.Schema({
-    name: {type: String, required: True},
-    city: {type: String, required: True},
-    address: {type: String, required: True},
-    mapLocation:  {type: String, required: True},
+    name: {type: String, required: true},
+    city: {type: String, required: true},
+    address: {type: String, required: true},
+    mapLocation:  {type: String, required: true},
     cuisines: [String],
     restaurantTimings: String,
     contactNumber: Number,
@@ -18,7 +18,7 @@ const RestaurantSchema=new mongoose.Schema({
     },
     menu:{
         type:mongoose.Types.ObjectId,
-        ref:"Menus"
+        ref:"Menu"
     },
     reviews:[{
         type:mongoose.Types.ObjectId,
