@@ -8,6 +8,7 @@ import helmet from "helmet";
 
 //configs
 import googleAuthConfig from "./config/google.config";
+import routeConfig from "./config/route.config";
 
 //passport configuaration
 import passport from "passport";
@@ -37,6 +38,7 @@ zomato.use(passport.session());
 
 //passport configuaration
 googleAuthConfig(passport);
+routeConfig(passport);
 
 // Application Routes
 zomato.use("/auth", Auth);

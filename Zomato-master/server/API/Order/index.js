@@ -14,7 +14,7 @@ Params     : _id
 Access     : Public
 method     : GET
 */
-Router.get("/:_id", async (req,res)=>{
+Router.get("/:_id", passport.authenticate("jwt", {session: false}), async (req,res)=>{
     try{
         const {_id} = req.params;
         const getOrders = await OrderModel.findOne({user: _id});
