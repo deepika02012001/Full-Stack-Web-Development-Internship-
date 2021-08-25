@@ -1,6 +1,6 @@
 function App() {
   return (
-    <div></div>
+    <h1 className="text-blue-700">hello tailwind</h1>
   );
 }
 
