@@ -1,5 +1,4 @@
 import joi from "joi";
-import { Schema } from "mongoose";
 
 export const ValidateRestaurantId = (resId) =>{
     const Schema = joi.object({
