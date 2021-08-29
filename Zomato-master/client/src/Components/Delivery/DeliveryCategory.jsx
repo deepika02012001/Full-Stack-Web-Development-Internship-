@@ -22,7 +22,7 @@ const DeliverySmCard = ({ image, title }) => {
 const DeliveryLgCard = ({ image, title }) => {
   return (
     <>
-      <div className="hidden lg:block w-72 h-64">
+      <div className="hidden lg:block w-72 h-64 mx-5">
         <div className="w-72 h-56">
           <img
             src={image}
