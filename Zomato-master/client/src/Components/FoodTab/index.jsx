@@ -88,7 +88,7 @@ const LargeTabs = ()=>{
     const {type} = useParams();
     return (
         <>
-            <div className="hidden lg:flex gap-14 container px-24 mx-auto my-10">
+            <div className="hidden lg:flex gap-14 container px-24 mx-auto my-8">
                 
                 {allTypes.map((items)=>(
                     <Link to={`/${items.id}`}>
