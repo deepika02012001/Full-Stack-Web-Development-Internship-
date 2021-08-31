@@ -24,7 +24,7 @@ const RestaurantCard =()=>{
                 </div>
                 <div className="flex items-center justify-between text-gray-500">
                     <p>Andhra, North Indian, Seafood, Beverages</p>
-                    <p>₹ 295</p>
+                    <p>₹295</p>
                 </div>
             </div>
         </div>
