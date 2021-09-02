@@ -43,7 +43,7 @@ const Brand = (props) => {
   };
   return (
       <>
-    <div className="md:hidden lg:hidden my-5 mb-32">
+    <div className="md:hidden lg:hidden my-5">
       <Slider {...settingsM}>
         {logos.map((logo) => (
           <div className="w-10 h-32 bg-white shadow">
@@ -56,7 +56,7 @@ const Brand = (props) => {
         ))}
       </Slider>
     </div>
-    <div className="hidden md:block lg:hidden my-5 mb-32">
+    <div className="hidden md:block lg:hidden my-5">
       <Slider {...settingsMD}>
         {logos.map((logo) => (
           <div className="w-10 h-32 bg-white shadow">
@@ -69,7 +69,7 @@ const Brand = (props) => {
         ))}
       </Slider>
     </div>
-    <div className="hidden lg:block my-5 mb-32">
+    <div className="hidden lg:block my-5">
     <Slider {...settingsLG}>
       {logos.map((logo) => (
         <div className="w-10 h-40 bg-white shadow">
