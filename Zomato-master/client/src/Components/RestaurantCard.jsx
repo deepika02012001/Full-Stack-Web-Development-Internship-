@@ -10,7 +10,7 @@ const RestaurantCard = (props) => {
             <div className="flex flex-col gap-2 items-start">
               {props.isPro && (
                 <span className="bg-zomato-400 text-white px-2 py-1 rounded text-sm">
-                  Pro extra 10% off
+                  {`${props.isPro}`}
                 </span>
               )}
               {props.isOff && (
@@ -20,7 +20,7 @@ const RestaurantCard = (props) => {
               )}
             </div>
             <span className="bg-white bg-opacity-75 p-1 rounded	mr-3">
-              {props.durationOfdelivery} min
+              {props.durationOfdelivery}
             </span>
           </div>
           <img
@@ -38,7 +38,7 @@ const RestaurantCard = (props) => {
           </div>
           <div className="flex items-center justify-between text-gray-500">
             <p>{props.cuisine.join(", ")}</p>
-            <p>₹ {props.averageCost} for one</p>
+            <p>₹ {props.averageCost}</p>
           </div>
         </div>
       </div>
