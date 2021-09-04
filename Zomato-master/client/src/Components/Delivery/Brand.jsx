@@ -33,7 +33,7 @@ const Brand = (props) => {
     prevArrow: <PrevArrow />,
   };
   const settingsLG = {
-    infinite: false,
+    infinite: true,
     speed: 500,
     slidesToShow: 5,
     slidesToScroll: 4,
