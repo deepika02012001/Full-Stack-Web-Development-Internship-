@@ -22,16 +22,16 @@ const NutritionSmCard = ({ image, text }) => {
   const NutritionLgCard = ({ image, text }) => {
     return (
       <>
-        <div className="hidden lg:block w-full h-64 relative px-4 overflow-hidden">
-        <div className="w-full h-48 relative border-2">
+        <div className="hidden lg:block w-full h-56 relative px-4 overflow-hidden">
+        <div className="w-full h-full relative border-2 rounded-md">
           <img
             src={image}
             alt="medicine"
-            className="w-full h-full object-contain"
+            className="w-full h-42 p-2 object-contain"
           />
-          <div className="relative text-center">
-            <h3 className="text-xl my-2 font-medium">{text}</h3>
-          </div>
+        </div>
+        <div className="relative bottom-14 text-center">
+            <h3 className="text-xl font-base">{text}</h3>
         </div>
       </div>
       </>

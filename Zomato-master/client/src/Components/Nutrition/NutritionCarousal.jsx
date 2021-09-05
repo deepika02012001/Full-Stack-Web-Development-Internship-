@@ -44,16 +44,13 @@ const NutritionCarousal = ()=>{
     
     return (
         <>
-          <h1 className="text-xl mb-4 my-12 font-semibold">
-            Nutrition to boost your health
-          </h1>
-          <div className="lg:hidden flex gap-3 flex-wrap justify-between">
+          <div className="lg:hidden my-12 flex gap-3 flex-wrap justify-between">
             {nutriCards.map((props) => (
                 <NutritionCarousalCard {...props} />
             ))}
           </div>
 
-        <div className="hidden lg:block">
+        <div className="hidden lg:block my-12">
             <Slider {...settings}>
             {nutriCards.map((props) => (
                 <NutritionCarousalCard {...props} />

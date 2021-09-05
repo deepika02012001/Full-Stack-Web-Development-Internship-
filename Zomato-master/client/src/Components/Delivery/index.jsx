@@ -116,7 +116,9 @@ const Delivery = ()=>{
             <h1 className="text-xl mb-4 mt-10 font-semibold">
                 Top brands in spotlight
             </h1>
-            <Brand />
+            <div className="px-2">
+                <Brand />
+            </div>
             <h1 className="text-xl mt-4 mb-2 md:mt-8 md:text-3xl md:font-semibold">
                 Delivery Restaurants in Vijay Nagar
             </h1>
