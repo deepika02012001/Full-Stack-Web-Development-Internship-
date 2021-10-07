@@ -8,6 +8,7 @@ import RestaurantNavbar from "../Components/Navbar/restaurantNavbar";
 import ImageGrid from "../Components/restaurant/ImageGrid";
 import RestaurantInfo from "../Components/restaurant/RestaurantInfo";
 import InfoButtons from "../Components/restaurant/InfoButtons";
+import TabContainer from "../Components/restaurant/Tabs";
 
 const RestaurantLayout =(props)=>{
     const [restaurant, setRestaurant] = useState({
@@ -26,40 +27,40 @@ const RestaurantLayout =(props)=>{
         cuising: "North Indian cuisine",
         address: "Bangalore",
       });
-    return (
+      return (
         <>
-      {" "}
-      <RestaurantNavbar />
-      <div className="container mx-auto px-4 lg:px-24 pb-10 ">
+          {" "}
+          <RestaurantNavbar />
+          <div className="container mx-auto px-4 lg:px-20 pb-10 ">
             <ImageGrid images={restaurant.images} />
             <RestaurantInfo
-          name={restaurant?.name}
-          restaurantRating={restaurant?.rating || 0}
-          deliveryRating={restaurant?.rating || 0}
-          cuisine={restaurant?.cuising}
-          address={restaurant?.address}
-        />
-        <div className="my-4 flex flex-wrap gap-3">
-         <InfoButtons isActive>
-            <TiStarOutline /> Add Review
-          </InfoButtons>
-          <InfoButtons>
-            <RiDirectionLine /> Direction
-          </InfoButtons>
-          <InfoButtons>
-            <BiBookmarkPlus /> Bookmark
-          </InfoButtons>
-          <InfoButtons>
-            <RiShareForwardLine /> Share
-          </InfoButtons>
-        </div>
-        <div className="my-10">
-          
-        </div>
-        <div className="relative">{props.children}</div>
-      </div>
+              name={restaurant?.name}
+              restaurantRating={restaurant?.rating || 0}
+              deliveryRating={restaurant?.rating || 0}
+              cuisine={restaurant?.cuising}
+              address={restaurant?.address}
+            />
+            <div className="my-4 flex flex-wrap gap-3">
+              <InfoButtons isActive>
+                <TiStarOutline /> Add Review
+              </InfoButtons>
+              <InfoButtons>
+                <RiDirectionLine /> Direction
+              </InfoButtons>
+              <InfoButtons>
+                <BiBookmarkPlus /> Bookmark
+              </InfoButtons>
+              <InfoButtons>
+                <RiShareForwardLine /> Share
+              </InfoButtons>
+            </div>
+            <div className="my-10">
+              <TabContainer></TabContainer>
+            </div>
+            <div className="relative">{props.children}</div>
+          </div>
         </>
-    );
-};
+      );
+    };
 
 export default RestaurantLayout;
