@@ -54,8 +54,8 @@ const RestaurantLayout =(props)=>{
                 <RiShareForwardLine /> Share
               </InfoButtons>
             </div>
-            <div className="my-10">
-              <TabContainer></TabContainer>
+            <div className="my-4">
+              <TabContainer />
             </div>
             <div className="relative">{props.children}</div>
           </div>
