@@ -3,7 +3,7 @@ import classnames from "classnames";
 import { useLocation, Link, useParams } from "react-router-dom";
 
 const Tab = (props) => {
-  const { id } = useParams();
+  const {id} = useParams();
   return (
     <Link to={`/restaurant/${id}/${props.route}`}>
       <div
