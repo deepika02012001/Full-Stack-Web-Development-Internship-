@@ -23,7 +23,7 @@ function App() {
       <Route path="/restaurant/:id" exact>
         <Redirect to="/restaurant/:id/overview" />
       </Route>
-      <HomeLayoutHOC path="/:type" exact component={OrderOnline} />
+      <HomeLayoutHOC path="/:type" exact component={Home} />
       <RestaurantLayoutHOC
         path="/restaurant/:id/overview"
         exact

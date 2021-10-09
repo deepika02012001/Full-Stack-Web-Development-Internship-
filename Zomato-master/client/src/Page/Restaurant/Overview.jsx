@@ -16,7 +16,8 @@ import ReviewCard from "../../Components/restaurant/Reviews/reviewCard";
 
 const Overview = () => {
   const {id} = useParams();
-
+  console.log(id);
+  
   const settings = {
     dots: true,
     infinite: false,
