@@ -12,6 +12,7 @@ import Overview from "./Page/Restaurant/Overview";
 //pages
 import Home from "./Page/Home";
 import RedirectRestaurant from "./Page/Restaurant/Redirect";
+import OrderOnline from "./Page/Restaurant/OrderOnline";
 
 function App() {
   return (
@@ -22,7 +23,7 @@ function App() {
       <Route path="/restaurant/:id" exact>
         <Redirect to="/restaurant/:id/overview" />
       </Route>
-      <HomeLayoutHOC path="/:type" exact component={Home} />
+      <HomeLayoutHOC path="/:type" exact component={OrderOnline} />
       <RestaurantLayoutHOC
         path="/restaurant/:id/overview"
         exact
@@ -31,7 +32,7 @@ function App() {
       <RestaurantLayoutHOC
         path="/restaurant/:id/order-online"
         exact
-        component={Temp}
+        component={OrderOnline}
       />
       <RestaurantLayoutHOC path="/restaurant/:id/menu" exact component={Temp} />
       <RestaurantLayoutHOC
