@@ -4,6 +4,7 @@ import React, { useEffect } from "react";
 //HOC
 import HomeLayoutHOC from "./HOC/Home.Hoc";
 import RestaurantLayoutHOC from "./Layout/Restaurant.layout";
+import CheckoutLayoutHOC from "./HOC/Checkout.Hoc";
 
 //component
 import Temp from "./Components/temp";
@@ -16,6 +17,7 @@ import OrderOnline from "./Page/Restaurant/OrderOnline";
 import Reviews from "./Page/Restaurant/Reviews";
 import Menu from "./Page/Restaurant/Menu";
 import Photos from "./Page/Restaurant/Photos";
+import Checkout from "./Page/Checkout";
 
 function App() {
   return (
@@ -32,6 +34,7 @@ function App() {
       <RestaurantLayoutHOC path="/restaurant/:id/menu" exact component={Menu} />
       <RestaurantLayoutHOC path="/restaurant/:id/reviews" exact component={Reviews} />
       <RestaurantLayoutHOC path="/restaurant/:id/photos" exact component={Photos} />
+      <CheckoutLayoutHOC path="/checkout/orders" exact component={Checkout} />
     </>
   );
 }
