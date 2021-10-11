@@ -22,6 +22,7 @@ const Checkout = () => {
   ];
 
   return (
+    <>
     <div className="my-3 flex flex-col gap-3 items-center">
       <h1 className="text-xl text-center md:text-2xl font-bold">Checkout</h1>
       <div className="w-full md:w-3/5 rounded-lg  py-3 shadow-lg bg-white flex flex-col items-center">
@@ -47,6 +48,7 @@ const Checkout = () => {
         </button>
       </div>
     </div>
+    </>
   );
 };
 
