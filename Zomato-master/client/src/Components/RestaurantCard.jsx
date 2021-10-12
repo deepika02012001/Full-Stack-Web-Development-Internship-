@@ -16,6 +16,7 @@ const RestaurantCard = (props) => {
         setImage(data.payload.image)
       );
   }, [props.photos]);
+
   return (
     <Link to={`/restaurant/${props._id}`} className="w-full">
       <div className="bg-white p-4 mb-4  w-full rounded-2xl transition duration-700 ease-in-out hover:shadow-lg md:w-1/2 lg:w-1/3">
@@ -24,7 +25,7 @@ const RestaurantCard = (props) => {
             <div className="flex flex-col gap-2 items-start">
               {props.isPro && (
                 <span className="bg-zomato-400 text-white px-2 py-1 rounded text-sm">
-                  {`${props.isPro}`}
+                  Pro extra 10% off
                 </span>
               )}
               {props.isOff && (
@@ -34,13 +35,13 @@ const RestaurantCard = (props) => {
               )}
             </div>
             <span className="bg-white bg-opacity-75 p-1 rounded	mr-3">
-              {props.durationOfdelivery}
+              {props.durationOfdelivery} min
             </span>
           </div>
           <img
             src={image.images.length && image.images[0].location}
             alt="food"
-            className="w-full h-full rounded-2xl md:object-cover"
+            className="w-full h-full rounded-2xl"
           />
         </div>
         <div className="my-2 flex flex-col gap-2">
@@ -52,7 +53,7 @@ const RestaurantCard = (props) => {
           </div>
           <div className="flex items-center justify-between text-gray-500">
             <p>{props.cuisine.join(", ")}</p>
-            <p>₹ {props.averageCost}</p>
+            <p>₹ {props.averageCost} for one</p>
           </div>
         </div>
       </div>
