@@ -35,12 +35,12 @@ Body       : review object
 Access     : Public
 method     : POST
 */
-Router.post("/new/", async (req,res)=>{
+Router.post("/new", passport.authenticate("jwt"), async (req, res) => {
     try{
-        await ValidateReviewData(req.body);
+        const { _id } = req.session.passport.user._doc;
 
         const {reviewData} = req.body;
-        await ReviewModel.create(reviewData);
+        await ReviewModel.create({ ...reviewData, user: _id });
         return res.json({review: "Successfully created review!"});
     } catch(error){
         return res.status(500).json({error: error.message});
