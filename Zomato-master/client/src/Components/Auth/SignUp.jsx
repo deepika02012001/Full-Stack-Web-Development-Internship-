@@ -31,7 +31,7 @@ export default function SignUp({ isOpen, setIsOpen }) {
   };
 
   const googlesignin = () =>
-    (window.location.href = "http://localhost:3000/auth/google");
+    (window.location.href = "http://localhost:4000/auth/google");
 
   return (
     <>
