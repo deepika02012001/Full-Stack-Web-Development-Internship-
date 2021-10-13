@@ -5,6 +5,7 @@ import { AiTwotoneStar } from "react-icons/ai";
 import { getImage } from "../Redux/Reducer/Image/Image.action";
 
 const RestaurantCard = (props) => {
+  console.log(props.whereIsthisres);
   const [image, setImage] = useState({
     images: [],
   });
