@@ -5,9 +5,6 @@ import passport from "passport";
 //database model
 import {OrderModel} from "../../database/allModels";
 
-//validation
-import { ValidateOrderDetails, ValidateOrderId } from "../../validation/order";
-
 const Router = express.Router();
 
 /*
@@ -19,7 +16,6 @@ method     : GET
 */
 Router.get("/:_id", passport.authenticate("jwt", {session: false}), async (req,res)=>{
     try{
-        await ValidateOrderId(req.params);
         const {_id} = req.params;
         const getOrders = await OrderModel.findOne({user: _id});
         if(!getOrders) return res.status(404).json({error: "User not found..!"});
@@ -38,9 +34,6 @@ method     : POST
 */
 Router.post("/new", passport.authenticate("jwt"), async (req, res) => {
      try{
-         await ValidateOrderId(req.params);
-         await ValidateOrderDetails(req.body);
-
          const { _id } = req.session.passport.user._doc;
          const {orderDetails} = req.body;
          const addNewOrder = await OrderModel.findOneAndUpdate(

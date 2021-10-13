@@ -5,9 +5,6 @@ import passport from "passport";
 //database model
 import {ReviewModel} from "../../database/allModels";
 
-//validation
-import { ValidateReviewData, ValidateReviewId } from "../../validation/review";
-
 const Router = express.Router();
 
 /*
@@ -57,8 +54,6 @@ method     : DELETE
 */
 Router.delete("/delete/:_id", async (req,res)=>{
     try{
-        await ValidateReviewId(req.params);
-        
         const {_id} = req.params;
         await ReviewModel.findByIdAndDelete(_id);
         return res.json({review: "Successfully deleted the Review."});
